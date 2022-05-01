@@ -15,6 +15,10 @@ config/description="Space Travel"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Skrypty/Global.gd"
+
 [display]
 
 window/size/width=1920

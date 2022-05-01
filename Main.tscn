@@ -6,4 +6,16 @@
 [node name="Main" type="Node"]
 script = ExtResource( 2 )
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AdminPanel" type="Node2D" parent="CanvasLayer"]
+
+[node name="Info_tile" type="Label" parent="CanvasLayer/AdminPanel"]
+margin_right = 149.0
+margin_bottom = 20.0
+text = "Center Tile Nav"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Statek01" parent="." instance=ExtResource( 1 )]

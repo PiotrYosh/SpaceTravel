@@ -14,7 +14,6 @@ onready var character : KinematicBody2D = $Robot01
 var last_mouse_pos = null
 var point_click = preload("res://Sceny/Point.tscn")
 var red_line_ready = true
-export var center = false
 ##################################################
 
 
@@ -35,7 +34,7 @@ func _input(event: InputEvent):
 		return
 	if event.button_index != BUTTON_LEFT or not event.pressed:
 		return
-	var new_path : = nav_2d.get_simple_path(character.global_position, get_global_mouse_position(), center)
+	var new_path : = nav_2d.get_simple_path(character.global_position, get_global_mouse_position(), Global.tile_center_nav)
 	line_2d.points = new_path
 	character.path = new_path
 	line_2dRED.clear_points()
@@ -54,4 +53,5 @@ func red_line():
 		red_line_ready = false
 
 func camera():
-	$Camera2D.global_position = character.global_position
+#	$Camera2D.global_position = character.global_position
+	$Camera2D.global_position = lerp(global_position, character.global_position, 1)

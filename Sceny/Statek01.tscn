@@ -1921,7 +1921,6 @@ animations = [ {
 
 [node name="Statek01" type="Node2D"]
 script = ExtResource( 27 )
-center = true
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
@@ -1974,7 +1973,7 @@ __meta__ = {
 position = Vector2( 989.418, 555.45 )
 frames = SubResource( 51 )
 animation = "ok"
-frame = 6
+frame = 2
 playing = true
 
 [node name="Robot01" parent="." instance=ExtResource( 17 )]
@@ -2017,12 +2016,12 @@ position = Vector2( 957.259, 179.858 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Elementy_mapy/email"]
 frames = SubResource( 60 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="Elementy_mapy/email"]
 frames = SubResource( 61 )
-frame = 1
+frame = 16
 playing = true
 
 [node name="Button" type="Node2D" parent="Elementy_mapy"]
@@ -2042,7 +2041,7 @@ position = Vector2( -573.284, -129.458 )
 position = Vector2( 990.957, 573.731 )
 frames = SubResource( 56 )
 animation = "ready"
-frame = 3
+frame = 10
 playing = true
 
 [node name="Poświata" type="AnimatedSprite" parent="Elementy_mapy/Punkt_akcja2_zasilanie"]
@@ -2050,7 +2049,7 @@ position = Vector2( 990.957, 573.731 )
 z_index = 2
 frames = SubResource( 57 )
 animation = "ready"
-frame = 4
+frame = 11
 playing = true
 
 [node name="Punkt_akcja_nawigACJA" type="Node2D" parent="Elementy_mapy"]
@@ -2060,7 +2059,7 @@ modulate = Color( 0.776471, 0.0235294, 0.0235294, 1 )
 position = Vector2( 990.957, 573.731 )
 frames = SubResource( 56 )
 animation = "ready"
-frame = 3
+frame = 10
 playing = true
 
 [node name="Poświata" type="AnimatedSprite" parent="Elementy_mapy/Punkt_akcja_nawigACJA"]
@@ -2069,7 +2068,7 @@ position = Vector2( 990.957, 573.731 )
 z_index = 2
 frames = SubResource( 57 )
 animation = "ready"
-frame = 4
+frame = 11
 playing = true
 
 [node name="wydech" type="Node2D" parent="Elementy_mapy"]
@@ -2078,49 +2077,49 @@ playing = true
 position = Vector2( 132.52, 419.157 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 1
+frame = 6
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 132.52, 718.161 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 3
+frame = 1
 playing = true
 
 [node name="AnimatedSprite3" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 132.52, 565.99 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 6
+frame = 4
 playing = true
 
 [node name="AnimatedSprite4" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 133, 1233 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 1
+frame = 6
 playing = true
 
 [node name="AnimatedSprite5" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 133, 1532 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 3
+frame = 1
 playing = true
 
 [node name="AnimatedSprite6" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 133, 1379.83 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 6
+frame = 4
 playing = true
 
 [node name="Fuzja" type="AnimatedSprite" parent="Elementy_mapy"]
 position = Vector2( 341.698, 398.148 )
 frames = SubResource( 52 )
 animation = "ok"
-frame = 2
+frame = 3
 playing = true
 
 [node name="Timer" type="Timer" parent="."]
@@ -2129,5 +2128,6 @@ one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+smoothing_enabled = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

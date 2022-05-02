@@ -35,22 +35,21 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 35.6359
-height = 8.01876
+radius = 12.0
+height = 24.0
 
 [node name="Robot01" type="KinematicBody2D" groups=["Player"]]
-position = Vector2( 0.890896, -26.9497 )
 collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.741096, 8.93962 )
+position = Vector2( 0, 6 )
 frames = SubResource( 4 )
 animation = "left"
 offset = Vector2( 0.741096, -26.0769 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.1498, -0.427364 )
+position = Vector2( 0, -18 )
 shape = SubResource( 5 )
 
 [node name="Attack1" type="Node2D" parent="."]

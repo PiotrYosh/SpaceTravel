@@ -1,4 +1,4 @@
-[gd_scene load_steps=161 format=2]
+[gd_scene load_steps=167 format=2]
 
 [ext_resource path="res://tileset_sf.png" type="Texture" id=1]
 [ext_resource path="res://Grafika/fuzja/fuzja_zepsuta0002.png" type="Texture" id=2]
@@ -16,7 +16,7 @@
 [ext_resource path="res://Grafika/fuzja/fuzja0001.png" type="Texture" id=14]
 [ext_resource path="res://Grafika/fuzja/fuzja_zepsuta0001.png" type="Texture" id=15]
 [ext_resource path="res://Grafika/nawigacja/nawigacja_error0001.png" type="Texture" id=16]
-[ext_resource path="res://Sceny/Robot01.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Skrypty/Attack1.gd" type="Script" id=17]
 [ext_resource path="res://Grafika/nawigacja/nawigacja_error0003.png" type="Texture" id=18]
 [ext_resource path="res://Grafika/nawigacja/nawigacja0001.png" type="Texture" id=19]
 [ext_resource path="res://Grafika/nawigacja/nawigacja0002.png" type="Texture" id=20]
@@ -68,6 +68,7 @@
 [ext_resource path="res://Grafika/Point/point_white_active0012.png" type="Texture" id=66]
 [ext_resource path="res://Grafika/Point/point_white_active0013.png" type="Texture" id=67]
 [ext_resource path="res://Grafika/Point/point_white_active0014.png" type="Texture" id=68]
+[ext_resource path="res://Skrypty/Robot01.gd" type="Script" id=69]
 [ext_resource path="res://Grafika/Monitor/email_normal0004.png" type="Texture" id=70]
 [ext_resource path="res://Grafika/Monitor/email_normal0005.png" type="Texture" id=71]
 [ext_resource path="res://Grafika/Monitor/email_normal0006.png" type="Texture" id=72]
@@ -100,6 +101,7 @@
 [ext_resource path="res://Grafika/Monitor/m_email_open0004.png" type="Texture" id=99]
 [ext_resource path="res://Grafika/wiatrak/w3.png" type="Texture" id=100]
 [ext_resource path="res://Skrypty/wiatrak.gd" type="Script" id=101]
+[ext_resource path="res://Skrypty/Line2DRED.gd" type="Script" id=102]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -1823,35 +1825,39 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 23/shapes = [  ]
 23/z_index = 0
 
-[sub_resource type="SpriteFrames" id=51]
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=65]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 16 ), ExtResource( 12 ), ExtResource( 18 ), ExtResource( 7 ), ExtResource( 11 ), ExtResource( 8 ) ],
+"frames": [ SubResource( 62 ) ],
 "loop": true,
-"name": "error",
-"speed": 10.0
+"name": "left",
+"speed": 5.0
 }, {
-"frames": [ ExtResource( 21 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 5 ) ],
+"frames": [ SubResource( 63 ) ],
 "loop": true,
-"name": "ok",
-"speed": 3.0
+"name": "up",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 64 ) ],
+"loop": true,
+"name": "down",
+"speed": 5.0
 } ]
 
-[sub_resource type="StreamTexture" id=53]
-flags = 6
-load_path = "res://.import/tr.png-44323572b59f78c9740b354000e42c52.stex"
-
-[sub_resource type="GDScript" id=54]
-script/source = "extends Line2D
-
-
-func _process(delta):
-	var p = get_parent().get_node(\"Point\").get_child_count()
-	if p > 0:
-		self.visible = true
-	else:
-		clear_points()
-		visible = false
-"
+[sub_resource type="CapsuleShape2D" id=66]
+radius = 12.0
+height = 24.0
 
 [sub_resource type="SpriteFrames" id=60]
 animations = [ {
@@ -1919,6 +1925,23 @@ animations = [ {
 "speed": 20.0
 } ]
 
+[sub_resource type="SpriteFrames" id=51]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 16 ), ExtResource( 12 ), ExtResource( 18 ), ExtResource( 7 ), ExtResource( 11 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "error",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 21 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "ok",
+"speed": 3.0
+} ]
+
+[sub_resource type="StreamTexture" id=53]
+flags = 6
+load_path = "res://.import/tr.png-44323572b59f78c9740b354000e42c52.stex"
+
 [node name="Statek01" type="Node2D"]
 script = ExtResource( 27 )
 
@@ -1969,38 +1992,67 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Nawigazja" type="AnimatedSprite" parent="."]
-position = Vector2( 989.418, 555.45 )
-frames = SubResource( 51 )
-animation = "ok"
-playing = true
+[node name="Character" type="Node2D" parent="."]
 
-[node name="Robot01" parent="." instance=ExtResource( 17 )]
+[node name="Robot01" type="KinematicBody2D" parent="Character" groups=["Player"]]
 position = Vector2( 742.065, 601.739 )
 z_index = 1
+collision_layer = 2
+script = ExtResource( 69 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Character/Robot01"]
+position = Vector2( 0, 6 )
+frames = SubResource( 65 )
+animation = "left"
+offset = Vector2( 0.741096, -26.0769 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Character/Robot01"]
+position = Vector2( 0, -18 )
+shape = SubResource( 66 )
+
+[node name="Attack1" type="Node2D" parent="Character/Robot01"]
+script = ExtResource( 17 )
+
+[node name="Robot03" type="KinematicBody2D" parent="Character" groups=["Player"]]
+position = Vector2( 906, 1342 )
+z_index = 1
+collision_layer = 2
+script = ExtResource( 69 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Character/Robot03"]
+position = Vector2( 0, 6 )
+frames = SubResource( 65 )
+animation = "left"
+offset = Vector2( 0.741096, -26.0769 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Character/Robot03"]
+position = Vector2( 0, -18 )
+shape = SubResource( 66 )
+
+[node name="Attack1" type="Node2D" parent="Character/Robot03"]
+script = ExtResource( 17 )
+
+[node name="Robot02" type="KinematicBody2D" parent="Character" groups=["Player"]]
+position = Vector2( 1380, 758 )
+z_index = 1
+collision_layer = 2
+script = ExtResource( 69 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Character/Robot02"]
+position = Vector2( 0, 6 )
+frames = SubResource( 65 )
+animation = "left"
+offset = Vector2( 0.741096, -26.0769 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Character/Robot02"]
+position = Vector2( 0, -18 )
+shape = SubResource( 66 )
+
+[node name="Attack1" type="Node2D" parent="Character/Robot02"]
+script = ExtResource( 17 )
 
 [node name="Point" type="Node2D" parent="."]
 script = ExtResource( 25 )
-
-[node name="Line2D" type="Line2D" parent="."]
-self_modulate = Color( 0.054902, 1, 0, 0.376471 )
-default_color = Color( 0.431373, 1, 0.4, 1 )
-texture = ExtResource( 29 )
-texture_mode = 1
-sharp_limit = 1.0
-round_precision = 5
-script = ExtResource( 30 )
-
-[node name="Line2DRED" type="Line2D" parent="."]
-modulate = Color( 1, 0, 0, 1 )
-self_modulate = Color( 1, 1, 1, 0.890196 )
-z_index = 11
-default_color = Color( 0.431373, 1, 0.4, 1 )
-texture = SubResource( 53 )
-texture_mode = 1
-sharp_limit = 1.0
-round_precision = 5
-script = SubResource( 54 )
 
 [node name="Elementy_mapy" type="Node2D" parent="."]
 
@@ -2029,6 +2081,7 @@ scale = Vector2( 0.5, 0.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Elementy_mapy/Button"]
 frames = SubResource( 59 )
+frame = 1
 playing = true
 
 [node name="Punkt_akcja2_zasilanie" type="Node2D" parent="Elementy_mapy"]
@@ -2039,7 +2092,7 @@ position = Vector2( -573.284, -129.458 )
 position = Vector2( 990.957, 573.731 )
 frames = SubResource( 56 )
 animation = "ready"
-frame = 14
+frame = 5
 playing = true
 
 [node name="Poświata" type="AnimatedSprite" parent="Elementy_mapy/Punkt_akcja2_zasilanie"]
@@ -2047,6 +2100,7 @@ position = Vector2( 990.957, 573.731 )
 z_index = 2
 frames = SubResource( 57 )
 animation = "ready"
+frame = 6
 playing = true
 
 [node name="Punkt_akcja_nawigACJA" type="Node2D" parent="Elementy_mapy"]
@@ -2056,7 +2110,7 @@ modulate = Color( 0.776471, 0.0235294, 0.0235294, 1 )
 position = Vector2( 990.957, 573.731 )
 frames = SubResource( 56 )
 animation = "ready"
-frame = 14
+frame = 5
 playing = true
 
 [node name="Poświata" type="AnimatedSprite" parent="Elementy_mapy/Punkt_akcja_nawigACJA"]
@@ -2065,6 +2119,7 @@ position = Vector2( 990.957, 573.731 )
 z_index = 2
 frames = SubResource( 57 )
 animation = "ready"
+frame = 6
 playing = true
 
 [node name="wydech" type="Node2D" parent="Elementy_mapy"]
@@ -2073,49 +2128,54 @@ playing = true
 position = Vector2( 132.52, 419.157 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 3
+frame = 5
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 132.52, 718.161 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 5
 playing = true
 
 [node name="AnimatedSprite3" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 132.52, 565.99 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 1
+frame = 3
 playing = true
 
 [node name="AnimatedSprite4" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 133, 1233 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 3
+frame = 5
 playing = true
 
 [node name="AnimatedSprite5" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 133, 1532 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 5
 playing = true
 
 [node name="AnimatedSprite6" type="AnimatedSprite" parent="Elementy_mapy/wydech"]
 position = Vector2( 133, 1379.83 )
 frames = SubResource( 55 )
 animation = "on"
-frame = 1
+frame = 3
 playing = true
 
 [node name="Fuzja" type="AnimatedSprite" parent="Elementy_mapy"]
 position = Vector2( 341.698, 398.148 )
 frames = SubResource( 52 )
 animation = "ok"
-frame = 2
+frame = 3
+playing = true
+
+[node name="Nawigazja" type="AnimatedSprite" parent="Elementy_mapy"]
+position = Vector2( 989.418, 555.45 )
+frames = SubResource( 51 )
+animation = "ok"
+frame = 3
 playing = true
 
 [node name="Timer" type="Timer" parent="."]
@@ -2125,5 +2185,27 @@ one_shot = true
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 smoothing_enabled = true
+
+[node name="Line" type="Node2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="Line"]
+self_modulate = Color( 0.054902, 1, 0, 0.376471 )
+default_color = Color( 0.431373, 1, 0.4, 1 )
+texture = ExtResource( 29 )
+texture_mode = 1
+sharp_limit = 1.0
+round_precision = 5
+script = ExtResource( 30 )
+
+[node name="Line2DRED" type="Line2D" parent="Line"]
+modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 1, 1, 0.890196 )
+z_index = 11
+default_color = Color( 0.431373, 1, 0.4, 1 )
+texture = SubResource( 53 )
+texture_mode = 1
+sharp_limit = 1.0
+round_precision = 5
+script = ExtResource( 102 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

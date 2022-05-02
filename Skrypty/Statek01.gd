@@ -17,6 +17,10 @@ var character
 ##################################################
 
 
+
+
+
+
 ########  Proces  ############
 func _physics_process(delta):
 	character_active()
@@ -59,5 +63,5 @@ func camera():
 
 
 func character_active():
-	character = $Character.get_child(0)
+	character = $Character.get_child(Global.player_active)
 	

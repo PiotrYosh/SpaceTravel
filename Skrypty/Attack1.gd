@@ -5,8 +5,9 @@ var A1_preload = preload("res://Sceny/A1.tscn")
 
 
 func _process(delta):
-	if Input.is_action_just_pressed("PPM"):
-		shot1()
+	if get_parent().active == true:
+		if Input.is_action_just_pressed("PPM"):
+			shot1()
 		
 func shot1():
 		var poz = get_global_mouse_position()
